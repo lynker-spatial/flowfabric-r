@@ -47,6 +47,37 @@ flowfabric_list_datasets <- function() {
   as.data.frame(do.call(rbind, lapply(json_flat, as.data.frame, stringsAsFactors = FALSE)))
 }
 
+##' Query streamflow
+#' @param dataset_id Dataset identifier
+#' @param feature_ids Optional. Character vector of feature IDs
+#' @param start_time Optional. Start time of desired data
+#' @param end_time Optional. End time of desired data
+#' @param issue_time Optional. Issue time for query parameters
+#' @param params Optional. List of query parameters (see API docs)
+#' @param ... Optional. Additional parameters (passed as named list)
+#' @param verbose Optional. Use TRUE for debugging purposes
+#' @return Data frame or parsed JSON
+##' @examples
+##' \dontrun{
+##' result <- flowfabric_streamflow_query(
+##'   "nws_owp_nwm_analysis",
+##'   params = params
+##' )
+##'
+##' result <- flowfabric_streamflow_query(
+##'   "nws_owp_nwm_short_range",
+##'   feature_ids = c("101", "1001"),
+##'   issue_time = "latest"
+##' )
+##'
+##' result <- flowfabric_streamflow_query(
+##'   "nws_owp_nwm_reanalysis_3_0",
+##'   feature_ids = c("101", "1001"),
+##'   start_time = "2018-01-01",
+##'   end_time = "2018-01-31"
+##' )
+##' }
+#' @export
 flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_time = NULL, end_time = NULL, issue_time = NULL, token = NULL, ..., params = NULL, verbose = FALSE) {
   # If params is provided, use it directly (backward compatibility)
   if (!is.null(params)) {
@@ -159,7 +190,6 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
   }
 }
 
-
 ##' Query REM ratings (stage-discharge relationships)
 #' @param feature_ids Character vector of feature IDs (required)
 #' @param type Ratings type: 'rem' (default) or 'ahps'
@@ -167,10 +197,10 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
 #' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
 #' @param ... Additional parameters (passed as named list)
 #' @return Parsed response (Arrow Table, data.frame, or list depending on format)
-#' @examples
-#' ratings <- flowfabric_ratings_query(feature_ids = c("101", "1001"), type = "rem")
-#' @export
-
+##' @examples
+##' \dontrun
+##' ratings <- flowfabric_ratings_query(feature_ids = c("101", "1001"), type = "rem")
+##' @export
 flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow", token = NULL, ..., verbose = FALSE) {
   if (is.null(token)) {
     token <- get_bearer_token()

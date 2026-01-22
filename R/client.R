@@ -47,7 +47,7 @@ flowfabric_list_datasets <- function() {
   as.data.frame(do.call(rbind, lapply(json_flat, as.data.frame, stringsAsFactors = FALSE)))
 }
 
-flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_time = NULL, end_time = NULL, issue_time = NULL, token = NULL, ..., params = NULL) {
+flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_time = NULL, end_time = NULL, issue_time = NULL, token = NULL, ..., params = NULL, verbose = FALSE) {
   # If params is provided, use it directly (backward compatibility)
   if (!is.null(params)) {
     query_params <- params
@@ -101,29 +101,29 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
   }
   if (is.null(token)) {
     token <- get_bearer_token()
-    message("[flowfabric_streamflow_query] Using token from get_bearer_token()")
+    if (verbose) message("[flowfabric_streamflow_query] Using token from get_bearer_token()")
   }
-  message("[flowfabric_streamflow_query] Token: ", substr(token, 1, 20), "...")
+  if (verbose) message("[flowfabric_streamflow_query] Token: ", substr(token, 1, 20), "...")
   endpoint <- paste0("/v1/datasets/", dataset_id, "/streamflow")
-  resp <- flowfabric_post(endpoint, body = query_params, token = token)
-  message("[flowfabric_streamflow_query] Request body: ", paste(capture.output(str(query_params)), collapse = " "))
-  message("[flowfabric_streamflow_query] Response status: ", httr2::resp_status(resp))
+  resp <- flowfabric_post(endpoint, body = query_params, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_streamflow_query] Request body: ", paste(capture.output(str(query_params)), collapse = " "))
+  if (verbose) message("[flowfabric_streamflow_query] Response status: ", httr2::resp_status(resp))
   # Check the Content-Type of the response
   content_type <- httr2::resp_content_type(resp)
-  message("[flowfabric_streamflow_query] Content-Type: ", content_type)
+  if (verbose) message("[flowfabric_streamflow_query] Content-Type: ", content_type)
 
   # Parse response based on Content-Type
   if (grepl("application/vnd\\.apache\\.arrow\\.stream", content_type, ignore.case = TRUE)) {
-    message("[flowfabric_streamflow_query] Parsing response as Arrow IPC stream.")
+    if (verbose) message("[flowfabric_streamflow_query] Parsing response as Arrow IPC stream.")
     raw_body <- httr2::resp_body_raw(resp)
     preview_len <- min(64, length(raw_body))
     text_preview <- tryCatch(rawToChar(raw_body[1:preview_len]), error = function(e) "<binary>")
-    message("[flowfabric_streamflow_query] Raw body (text preview): ", text_preview)
+    if (verbose) message("[flowfabric_streamflow_query] Raw body (text preview): ", text_preview)
     # If the body looks like JSON, handle as base64-encoded Arrow
     if (startsWith(text_preview, "{")) {
       json <- jsonlite::fromJSON(rawToChar(raw_body))
       if (!is.null(json$data)) {
-        message("[flowfabric_streamflow_query] Detected base64-encoded Arrow in JSON 'data' field.")
+        if (verbose) message("[flowfabric_streamflow_query] Detected base64-encoded Arrow in JSON 'data' field.")
         arrow_bin <- base64enc::base64decode(json$data)
         tbl <- arrow::read_ipc_stream(arrow_bin)
         if ("time" %in% names(tbl)) {
@@ -146,9 +146,9 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
       })
     }
   } else if (grepl("application/json", content_type, ignore.case = TRUE)) {
-    message("[flowfabric_streamflow_query] Parsing response as JSON.")
+    if (verbose) message("[flowfabric_streamflow_query] Parsing response as JSON.")
     tryCatch({
-      message("[flowfabric_streamflow_query] Response body: ", paste(capture.output(str(httr2::resp_body_json(resp))), collapse = " "))
+      if (verbose) message("[flowfabric_streamflow_query] Response body: ", paste(capture.output(str(httr2::resp_body_json(resp))), collapse = " "))
       json_data <- httr2::resp_body_json(resp)
       return(json_data)
     }, error = function(e) {
@@ -159,21 +159,8 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
   }
 }
 
-#' Query rating curves
-#'
-#' @param dataset_id Dataset identifier (e.g., "usgs-ratings")
-#' @param params List of query parameters (see API docs)
-#' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
-#' @return List of rating curves
-##' @examples
-##' \dontrun{
-##' ratings <- flowfabric_ratings_query(
-##'   dataset_id = "usgs-ratings",
-##'   params = list(feature_ids = c("101"))
-##' )
-##' }
-#' @export
-##' Query REM or AHPS ratings (stage-discharge relationships)
+
+##' Query REM ratings (stage-discharge relationships)
 #' @param feature_ids Character vector of feature IDs (required)
 #' @param type Ratings type: 'rem' (default) or 'ahps'
 #' @param format Output format: 'arrow' (default), 'json', or 'parquet'
@@ -183,9 +170,11 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
 #' @examples
 #' ratings <- flowfabric_ratings_query(feature_ids = c("101", "1001"), type = "rem")
 #' @export
-flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow", token = NULL, ...) {
+
+flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow", token = NULL, ..., verbose = FALSE) {
   if (is.null(token)) {
     token <- get_bearer_token()
+    if (verbose) message("[flowfabric_ratings_query] Using token from get_bearer_token()")
   }
   params <- list(
     feature_ids = feature_ids,
@@ -198,10 +187,14 @@ flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow"
     params <- c(params, dots)
   }
   endpoint <- "/v1/ratings"
-  resp <- flowfabric_post(endpoint, body = params, token = token)
+  resp <- flowfabric_post(endpoint, body = params, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_ratings_query] Request body: ", paste(capture.output(str(params)), collapse = " "))
+  if (verbose) message("[flowfabric_ratings_query] Response status: ", httr2::resp_status(resp))
   if (tolower(format) == "arrow") {
+    if (verbose) message("[flowfabric_ratings_query] Parsing response as Arrow IPC stream.")
     return(arrow::read_ipc_stream(httr2::resp_body_raw(resp)))
   } else {
+    if (verbose) message("[flowfabric_ratings_query] Parsing response as JSON.")
     return(httr2::resp_body_json(resp))
   }
 }
@@ -221,16 +214,20 @@ flowfabric_ratings_query <- function(feature_ids, type = "rem", format = "arrow"
 ##' df <- as.data.frame(tbl)
 ##' }
 #' @export
-flowfabric_stage_query <- function(dataset_id, params = NULL, token = NULL, ...) {
+flowfabric_stage_query <- function(dataset_id, params = NULL, token = NULL, ..., verbose = FALSE) {
   if (is.null(token)) {
     token <- get_bearer_token()
+    if (verbose) message("[flowfabric_stage_query] Using token from get_bearer_token()")
   }
   if (is.null(params)) {
     params <- list(...)
     # Optionally, add auto-population logic here if desired
   }
   endpoint <- paste0("/v1/datasets/", dataset_id, "/stage:query")
-  resp <- flowfabric_post(endpoint, body = params, token = token)
+  resp <- flowfabric_post(endpoint, body = params, token = token, verbose = verbose)
+  if (verbose) message("[flowfabric_stage_query] Request body: ", paste(capture.output(str(params)), collapse = " "))
+  if (verbose) message("[flowfabric_stage_query] Response status: ", httr2::resp_status(resp))
+  if (verbose) message("[flowfabric_stage_query] Parsing response as Arrow IPC stream.")
   arrow::read_ipc_stream(httr2::resp_body_raw(resp))
 }
 
@@ -244,14 +241,13 @@ flowfabric_stage_query <- function(dataset_id, params = NULL, token = NULL, ...)
 ##' token <- get_bearer_token()
 ##' }
 #' @export
-get_bearer_token <- function() {
-  token <- hfutils::lynker_spatial_auth()
-  if (is.list(token) && !is.null(token$id_token)) {
-    return(as.character(token$id_token))
-  } else if (is.character(token) && nzchar(token)) {
+get_bearer_token <- function(force_refresh = FALSE) {
+  # Always use the unified token getter
+  token <- flowfabric_get_token(force_refresh = force_refresh)
+  if (is.character(token) && nzchar(token)) {
     return(token)
   } else {
-    stop("No valid token found in result from hfutils::lynker_spatial_auth()")
+    stop("No valid token found. If running in a non-interactive environment, please cache a token or set it explicitly.")
   }
 }
 

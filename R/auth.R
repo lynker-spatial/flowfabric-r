@@ -17,19 +17,50 @@
 ##' }
 ##' @export
 flowfabric_get_token <- function(force_refresh = FALSE) {
-  # Try exported version first, fall back to ::: if needed
+  cache_path <- file.path(Sys.getenv("HOME"), ".flowfabric_token")
+  read_cache <- function(path) {
+    if (!file.exists(path)) return(NULL)
+    json <- tryCatch(jsonlite::fromJSON(path), error = function(e) NULL)
+    json
+  }
+  write_cache <- function(path, id_token, expiry) {
+    jsonlite::write_json(list(id_token = id_token, expiry = expiry), path, auto_unbox = TRUE)
+  }
+  get_expiry_from_jwt <- function(token) {
+    # JWT: header.payload.signature, payload is 2nd part
+    payload <- strsplit(token, "\\.")[[1]][2]
+    payload_dec <- rawToChar(jsonlite::base64_dec(payload))
+    exp <- tryCatch(jsonlite::fromJSON(payload_dec)$exp, error = function(e) NULL)
+    if (is.null(exp)) return(NULL)
+    as.POSIXct(exp, origin = "1970-01-01", tz = "UTC")
+  }
+  cache <- read_cache(cache_path)
+  now <- Sys.time()
+  if (!force_refresh && !is.null(cache) && !is.null(cache$id_token) && !is.null(cache$expiry)) {
+    expiry <- as.POSIXct(cache$expiry, tz = "UTC")
+    if (now < expiry) {
+      return(cache$id_token)
+    }
+  }
+  # Authenticate and cache
   token_fun <- tryCatch(get("lynker_spatial_token", asNamespace("hfutils")), error = function(e) NULL)
   refresh_fun <- tryCatch(get("lynker_spatial_refresh", asNamespace("hfutils")), error = function(e) NULL)
   if (is.null(token_fun)) token_fun <- hfutils:::lynker_spatial_token
   if (is.null(refresh_fun)) refresh_fun <- hfutils:::lynker_spatial_refresh
   token <- token_fun()
   if (inherits(token, "httr2_token")) {
-    if (force_refresh || ("expires_at" %in% names(token) && Sys.time() >= as.POSIXct(token$expires_at))) {
+    if (force_refresh || ("expires_at" %in% names(token) && now >= as.POSIXct(token$expires_at))) {
       token <- refresh_fun(token)
     }
-    return(token$access_token)
+    id_token <- token$id_token
+    expiry <- get_expiry_from_jwt(id_token)
+    write_cache(cache_path, id_token, expiry)
+    return(id_token)
   } else if (is.character(token)) {
-    return(token)
+    id_token <- token
+    expiry <- get_expiry_from_jwt(id_token)
+    write_cache(cache_path, id_token, expiry)
+    return(id_token)
   } else {
     stop("Failed to obtain a valid JWT token.")
   }
@@ -39,36 +70,15 @@ flowfabric_get_token <- function(force_refresh = FALSE) {
 #'
 #' Set or get the global token used for authentication. If not set, will attempt to obtain one using flowfabric_get_token().
 
+## Deprecated: use flowfabric_get_token instead
 flowfabric_token <- function(refresh = FALSE) {
-    token_path <- file.path(Sys.getenv("HOME"), ".flowfabric_token")
-    is_expired <- function(token) {
-      parts <- strsplit(token, "\\.")[[1]]
-      if (length(parts) < 2) return(TRUE)
-      payload <- rawToChar(base64enc::base64decode(parts[2]))
-      exp <- tryCatch(jsonlite::fromJSON(payload)$exp, error = function(e) NA)
-      if (is.na(exp)) return(TRUE)
-      now <- as.numeric(Sys.time())
-      return(now > exp)
-    }
-    if (!refresh && file.exists(token_path)) {
-      token <- readLines(token_path, warn = FALSE)
-      if (nzchar(token) && !is_expired(token)) {
-        message("[flowfabric] Using cached token.")
-        return(token)
-      } else if (nzchar(token)) {
-        message("[flowfabric] Cached token expired. Refreshing...")
-      }
-    }
-    message("[flowfabric] No valid cached token. Prompting for login...")
-    x <- hfutils::lynker_spatial_auth()
-    token <- x$id_token
-    writeLines(token, token_path)
-    return(token)
-  }
+  .Deprecated("flowfabric_get_token")
+  flowfabric_get_token(force_refresh = refresh)
+}
 
-  flowfabric_refresh_token <- function() {
-    flowfabric_token(refresh = TRUE)
-  }
+flowfabric_refresh_token <- function() {
+  flowfabric_get_token(force_refresh = TRUE)
+}
 
 #' @export
 # flowfabric_token <- local({

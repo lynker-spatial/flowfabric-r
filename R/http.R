@@ -14,7 +14,7 @@ flowfabric_get <- function(endpoint, token = NULL, ...) {
   if (missing(endpoint) || is.null(endpoint) || !nzchar(endpoint)) {
     stop("[flowfabric_get] 'endpoint' must be a non-empty string.", call. = FALSE)
   }
-  if (is.null(token)) token <- flowfabric_token()
+  if (is.null(token)) token <- flowfabric_get_token()
   base_url <- getOption("flowfabric.api_url", "https://flowfabric-api.lynker-spatial.com")
   url <- paste0(base_url, endpoint)
   req <- httr2::request(url) |>
@@ -36,19 +36,19 @@ flowfabric_get <- function(endpoint, token = NULL, ...) {
 #' @param ... Additional httr2::request() options
 #' @return httr2 response object
 #' @export
-flowfabric_post <- function(endpoint, body, token = NULL, ...) {
+flowfabric_post <- function(endpoint, body, token = NULL, ..., verbose = FALSE) {
   if (missing(endpoint) || is.null(endpoint) || !nzchar(endpoint)) {
     stop("[flowfabric_post] 'endpoint' must be a non-empty string.", call. = FALSE)
   }
-  if (is.null(token)) token <- flowfabric_token()
+  if (is.null(token)) token <- flowfabric_get_token()
   base_url <- getOption("flowfabric.api_url", "https://flowfabric-api.lynker-spatial.com")
     url <- paste0(base_url, endpoint)
     # Remove any leading 'Bearer ' from token before prepending
     clean_token <- sub('^Bearer ', '', token)
     auth_header <- paste("Bearer", clean_token)
-    message("[flowfabric_post] URL: ", url)
-    message("[flowfabric_post] Authorization: ", auth_header)
-    message("[flowfabric_post] Body: ", paste(capture.output(str(body)), collapse = " "))
+    if (verbose) message("[flowfabric_post] URL: ", url)
+    if (verbose) message("[flowfabric_post] Authorization: ", auth_header)
+    if (verbose) message("[flowfabric_post] Body: ", paste(capture.output(str(body)), collapse = " "))
     # Ensure feature_ids is always a list for JSON
     if (!is.null(body$feature_ids)) {
       body$feature_ids <- as.list(body$feature_ids)

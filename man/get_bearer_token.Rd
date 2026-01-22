@@ -4,7 +4,7 @@
 \alias{get_bearer_token}
 \title{Retrieve Bearer Token}
 \usage{
-get_bearer_token()
+get_bearer_token(force_refresh = FALSE)
 }
 \value{
 A character string containing the Bearer token.

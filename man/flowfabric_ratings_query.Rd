@@ -2,7 +2,7 @@
 % Please edit documentation in R/client.R
 \name{flowfabric_ratings_query}
 \alias{flowfabric_ratings_query}
-\title{Query rating curves}
+\title{Query REM ratings (stage-discharge relationships)}
 \usage{
 flowfabric_ratings_query(
   feature_ids,
@@ -22,25 +22,13 @@ flowfabric_ratings_query(
 \item{token}{Optional. Bearer token. If NULL, will use flowfabric_get_token().}
 
 \item{...}{Additional parameters (passed as named list)}
-
-\item{dataset_id}{Dataset identifier (e.g., "usgs-ratings")}
-
-\item{params}{List of query parameters (see API docs)}
 }
 \value{
-List of rating curves
-
 Parsed response (Arrow Table, data.frame, or list depending on format)
 }
 \description{
-Query rating curves
+Query REM ratings (stage-discharge relationships)
 }
 \examples{
-\dontrun{
-ratings <- flowfabric_ratings_query(
-  dataset_id = "usgs-ratings",
-  params = list(feature_ids = c("101"))
-)
-}
 ratings <- flowfabric_ratings_query(feature_ids = c("101", "1001"), type = "rem")
 }

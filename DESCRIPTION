@@ -13,8 +13,10 @@ Imports:
     arrow,
     tibble,
     hfutils,
-    testthat,
-    knitr
+    testthat
+Suggests:
+    knitr,
+    rmarkdown
 Remotes:
     lynker-spatial/hfutils
 VignetteBuilder: knitr

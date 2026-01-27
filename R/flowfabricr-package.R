@@ -3,7 +3,8 @@
 #'
 #' This package provides a high-performance R interface to the FlowFabric REST API, including JWT authentication (leveraging and improving hfutils). It is designed for expert R users and includes documentation and tests.
 #'
-#' @docType package
+#' @keywords internal
+  "_PACKAGE"
 #' @name flowfabricr
 #'
 #' @keywords internal

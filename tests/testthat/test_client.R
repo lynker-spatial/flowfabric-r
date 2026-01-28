@@ -73,11 +73,12 @@ test_that("flowfabric_ratings_estimate returns a list", {
 
 # Test for flowfabric_stage_query
 
-test_that("flowfabric_stage_query returns an HTTP 404 error", {
+test_that("flowfabric_stage_query returns an Arrow Table", {
   token <- get_bearer_token()
   dataset_id <- "nws_owp_nwm_analysis"
   params <- list(param1 = "value1")
-  expect_error(flowfabric_stage_query(dataset_id, params, token = token), "HTTP 404 Not Found.")
+  result <- flowfabric_stage_query(dataset_id, params, token = token)
+  expect_s3_class(result, "ArrowTable")
 })
 
 # Test for flowfabric_healthz

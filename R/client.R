@@ -438,12 +438,31 @@ flowfabric_stage_query <- function(dataset_id, params = NULL, token = NULL, ...,
     params <- list(...)
     # Optionally, add auto-population logic here if desired
   }
-  endpoint <- paste0("/v1/datasets/", dataset_id, "/stage:query")
+  endpoint <- paste0("/v1/stage")
   resp <- flowfabric_post(endpoint, body = params, token = token, verbose = verbose)
   if (verbose) message("[flowfabric_stage_query] Request body: ", paste(capture.output(str(params)), collapse = " "))
   if (verbose) message("[flowfabric_stage_query] Response status: ", httr2::resp_status(resp))
   if (verbose) message("[flowfabric_stage_query] Parsing response as Arrow IPC stream.")
   arrow::read_ipc_stream(httr2::resp_body_raw(resp))
+}
+
+##' Query inundation polygon grid IDs
+#' @param dataset_id Dataset identifier
+#' @param token Optional. Bearer token. Uses get_bearer_token() if NULL.
+#' @param start_time Optional. Start time of desired data
+#' @param end_time Optional. End time of desired data
+#' @param issue_time Optional. Issue time for query parameters
+#' @param params List of query parameters (see API docs)
+#' @param ... Optional. Additional parameters (passed as named list)
+#' @param verbose Use TRUE for debugging purposes
+#' @return Polygon IDs for mapping
+##' @examples
+##' \dontrun{
+##' polygons <- flowfabric_inundation_ids()
+##' }
+#' @export
+flowfabric_inundation_ids <- function(dataset_id, token = NULL, start_time = NULL, end_time = NULL, issue_time = NULL, params = NULL, ..., verbose = FALSE) {
+  return()
 }
 
 ##' Health check

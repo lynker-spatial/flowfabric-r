@@ -8,16 +8,11 @@ flowfabric_get_token(force_refresh = FALSE)
 }
 \value{
 A character string containing the JWT Bearer token
-
-A character string containing the JWT Bearer token
 }
 \description{
 Uses improved authentication from hfutils to obtain a valid JWT token for API requests.
 }
 \examples{
-\dontrun{
-token <- flowfabric_get_token()
-}
 \dontrun{
 token <- flowfabric_get_token()
 }

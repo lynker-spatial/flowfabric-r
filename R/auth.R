@@ -1,4 +1,4 @@
-#' Get a JWT Bearer Token for FlowFabric API
+##' Get a JWT Bearer Token for FlowFabric API
 #'
 #' Uses improved authentication from hfutils to obtain a valid JWT token for API requests.
 #' @return A character string containing the JWT Bearer token
@@ -7,15 +7,6 @@
 #' token <- flowfabric_get_token()
 #' }
 #' @export
-##' Get a JWT Bearer Token for FlowFabric API
-##'
-##' Uses improved authentication from hfutils to obtain a valid JWT token for API requests.
-##' @return A character string containing the JWT Bearer token
-##' @examples
-##' \dontrun{
-##' token <- flowfabric_get_token()
-##' }
-##' @export
 flowfabric_get_token <- function(force_refresh = FALSE) {
   cache_path <- file.path(Sys.getenv("HOME"), ".flowfabric_token")
   read_cache <- function(path) {
@@ -29,7 +20,7 @@ flowfabric_get_token <- function(force_refresh = FALSE) {
   get_expiry_from_jwt <- function(token) {
     # JWT: header.payload.signature, payload is 2nd part
     payload <- strsplit(token, "\\.")[[1]][2]
-    payload_dec <- rawToChar(jsonlite::base64_dec(payload))
+    payload_dec <- rawToChar(jsonlite::base64url_dec(payload))
     exp <- tryCatch(jsonlite::fromJSON(payload_dec)$exp, error = function(e) NULL)
     if (is.null(exp)) return(NULL)
     as.POSIXct(exp, origin = "1970-01-01", tz = "UTC")

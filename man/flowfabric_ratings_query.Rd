@@ -9,7 +9,8 @@ flowfabric_ratings_query(
   type = "rem",
   format = "arrow",
   token = NULL,
-  ...
+  ...,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -30,5 +31,7 @@ Parsed response (Arrow Table, data.frame, or list depending on format)
 Query REM ratings (stage-discharge relationships)
 }
 \examples{
+\dontrun{
 ratings <- flowfabric_ratings_query(feature_ids = c("101", "1001"), type = "rem")
+}
 }

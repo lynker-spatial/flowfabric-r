@@ -4,7 +4,13 @@
 \alias{flowfabric_stage_query}
 \title{Query stage data (Arrow IPC)}
 \usage{
-flowfabric_stage_query(dataset_id, params = NULL, token = NULL, ...)
+flowfabric_stage_query(
+  dataset_id,
+  params = NULL,
+  token = NULL,
+  ...,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{dataset_id}{Dataset identifier}

@@ -2,44 +2,27 @@
 % Please edit documentation in R/client.R
 \name{flowfabric_streamflow_estimate}
 \alias{flowfabric_streamflow_estimate}
-\title{Estimate streamflow}
+\title{Estimate streamflow result size and get export_url when available}
 \usage{
 flowfabric_streamflow_estimate(
   dataset_id,
-  feature_ids = NULL,
-  start_time = NULL,
-  end_time = NULL,
-  issue_time = NULL,
-  params = NULL,
+  params = list(),
   token = NULL,
-  ...,
   verbose = FALSE
 )
 }
 \arguments{
 \item{dataset_id}{Dataset identifier}
 
-\item{feature_ids}{Optional. Character vector of feature IDs}
-
-\item{start_time}{Optional. Start time of desired data}
-
-\item{end_time}{Optional. End time of desired data}
-
-\item{issue_time}{Optional. Issue time for query parameters}
-
 \item{params}{List of query parameters (see API docs)}
 
-\item{token}{Optional. Bearer token. If NULL, will use flowfabric_get_token()}
+\item{token}{Optional Bearer token. If NULL, will use `get_bearer_token()`}
 
-\item{...}{Optional. Additional parameters (passed as named list)}
-
-\item{verbose}{Optional. Use TRUE for debugging purposes}
-}
-\value{
-Returns a list
+\item{verbose}{Logical; print debug messages}
 }
 \description{
-Estimate streamflow
+Wrapper for the /v1/datasets/{dataset_id}/streamflow endpoint (estimate mode).
+Calls `POST /v1/datasets/{dataset_id}/streamflow?estimate=true` and returns the parsed JSON estimate object (list).
 }
 \examples{
 \dontrun{

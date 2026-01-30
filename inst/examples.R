@@ -2,7 +2,8 @@ devtools::load_all('.')
 devtools::document()
 options(flowfabric.api_url = "https://flowfabric-api.lynker-spatial.com")
 (cat = flowfabric_list_datasets())
-#options(flowfabric.api_url = "http://127.0.0.1:8000")
+options(flowfabric.api_url = "http://127.0.0.1:8000")
+
 
 #json <- '{"query_mode":"run","feature_ids":["101"],"issue_time":"2026012115","scope":"features","lead_start":0,"lead_end":0,"format":"arrow"}'
 
@@ -13,35 +14,42 @@ options(flowfabric.api_url = "https://flowfabric-api.lynker-spatial.com")
 #  -d '{json}'"
 #)
 
-#system(cmd)
 
-params <- list(
-  query_mode = "run",
-  feature_ids = I(c("101")),
-  issue_time = "latest",
-  scope = "features",
-  lead_start = 0,
-  lead_end = 0,
-  format = "arrow"
-)
 
-result <- flowfabric_streamflow_query(
-  "nws_owp_nwm_analysis",
-  params = params
-)
+system.time({
+ result <- flowfabric_streamflow_query(
+    "nws_owp_nwm_analysis",
+    feature_ids = c("101", "1001"),
+    issue_time = "latest"
+  )
+})
+result
 
-result <- flowfabric_streamflow_query(
-  "nws_owp_nwm_analysis",
-  feature_ids = c("101", "1001"),
-  issue_time = "latest"
-)
+system.time({
+  result <- flowfabric_streamflow_query(
+      "lynker_spatial_ecwmf_glofas_global",
+      issue_time = "latest"
+  )
+})
 
-result <- flowfabric_streamflow_query(
-  "nws_owp_nwm_reanalysis_3_0",
-  feature_ids = c("101", "1001"),
-  start_time = "2018-01-01",
-  end_time = "2018-01-31"
-)
+system.time({
+  result <- flowfabric_streamflow_query(
+    "nws_owp_nwm_short_range",
+    issue_time = "latest"
+  )
+})
+result
+
+
+system.time({
+  result <- flowfabric_streamflow_query(
+    "nws_owp_nwm_reanalysis_3_0",
+    feature_ids = c("101", "1001"),
+    start_time = "2018-01-01",
+    end_time = "2018-01-31"
+  )
+})
+result
 range(result$time)
 
 ## Uncomment and run interactively as needed:

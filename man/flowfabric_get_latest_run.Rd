@@ -2,22 +2,19 @@
 % Please edit documentation in R/client.R
 \name{flowfabric_get_latest_run}
 \alias{flowfabric_get_latest_run}
-\title{Get the latest run for a specified dataset}
+\title{Get latest run for a dataset}
 \usage{
 flowfabric_get_latest_run(dataset_id, token = NULL, verbose = FALSE)
 }
 \arguments{
 \item{dataset_id}{Dataset identifier}
 
-\item{token}{Optional. If NULL, will use get_bearer_token()}
+\item{token}{Optional Bearer token. If NULL, will use `get_bearer_token()`}
 
-\item{verbose}{Use TRUE for debugging purposes}
-}
-\value{
-Returns the latest run for a specified dataset
+\item{verbose}{Logical; print debug messages}
 }
 \description{
-Get the latest run for a specified dataset
+Wrapper for GET /v1/datasets/{dataset_id}/runs/latest returning parsed JSON.
 }
 \examples{
 \dontrun{

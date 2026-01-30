@@ -2,24 +2,21 @@
 % Please edit documentation in R/client.R
 \name{flowfabric_get_run}
 \alias{flowfabric_get_run}
-\title{Get a specific run for a specified dataset}
+\title{Get a specific run by issue_time}
 \usage{
 flowfabric_get_run(dataset_id, issue_time, token = NULL, verbose = FALSE)
 }
 \arguments{
 \item{dataset_id}{Dataset identifier}
 
-\item{issue_time}{Issue time for desired run}
+\item{issue_time}{Issue time string (e.g., "2026012316")}
 
-\item{token}{Optional. If NULL, will use get_bearer_token()}
+\item{token}{Optional Bearer token. If NULL, will use `get_bearer_token()`}
 
-\item{verbose}{Use TRUE for debugging purposes}
-}
-\value{
-Returns a specific run for the specified dataset
+\item{verbose}{Logical; print debug messages}
 }
 \description{
-Get a specific run for a specified dataset
+Wrapper for GET /v1/datasets/{dataset_id}/runs/{issue_time} returning parsed JSON.
 }
 \examples{
 \dontrun{

@@ -2,22 +2,19 @@
 % Please edit documentation in R/client.R
 \name{flowfabric_get_dataset}
 \alias{flowfabric_get_dataset}
-\title{Get a specific dataset}
+\title{Get dataset details from catalog}
 \usage{
 flowfabric_get_dataset(dataset_id, token = NULL, verbose = FALSE)
 }
 \arguments{
 \item{dataset_id}{Dataset identifier}
 
-\item{token}{Optional. If NULL, will use get_bearer_token()}
+\item{token}{Optional Bearer token. If NULL, will use `get_bearer_token()`}
 
-\item{verbose}{Use TRUE for debugging purposes}
-}
-\value{
-Returns a specific dataset
+\item{verbose}{Logical; print debug messages}
 }
 \description{
-Get a specific dataset
+Wrapper for GET /v1/datasets/{dataset_id} returning parsed JSON dataset object.
 }
 \examples{
 \dontrun{

@@ -1,18 +1,17 @@
 
 # flowfabricr: Effortless R Access to FlowFabric API
 
-`flowfabricr` is a powerful R client for the FlowFabric API, providing seamless access to streamflow forecasts, reanalysis, ratings, and datasets. With robust authentication and automatic token caching, you can focus on data science, not on API plumbing.
+`flowfabricr` is a powerful R client for the FlowFabric API, providing seamless access to hydrologic forecasts, reanalysis, rating curves, and datasets. With robust authentication and automatic token caching, you can focus on data science, not on data munging plumbing.
 
 ## Key Features
+- **Evolving catalog** of harmonized data from multiple models
+- **Single method access** to all models - both retrospective and forecast
 - **One-time authentication**: Log in once, and your token is cached for future use.
-- **Easy access to streamflow forecasts, reanalysis, and ratings**
-- **List and explore available datasets**
 - **Arrow IPC support**: Fast, memory-efficient data transfer
-- **Verbose mode for debugging**
 
 ## Installation
 ```r
-# Not yet on CRAN. Install from GitHub:
+#  Install from GitHub:
 devtools::install_github('lynker-spatial/flowfabric-r')
 ```
 
@@ -20,31 +19,42 @@ devtools::install_github('lynker-spatial/flowfabric-r')
 ```r
 library(flowfabricr)
 
-# 1. Query streamflow forecast (first call prompts login, then caches token)
+# 1. List available datasets
+datasets <- flowfabric_list_datasets()
+head(datasets)
+
+# 2. Query streamflow forecast (first call prompts login, then caches token)
+# More on atuhentication below ...
 tbl <- flowfabric_streamflow_query(
-	dataset_id = "nwm-forecast",
+	dataset_id = "nws_owp_nwm_analysis",
 	feature_ids = c("101", "1001"),
 	issue_time = "latest"
 )
 df <- as.data.frame(tbl)
 head(df)
 
-# 2. Query streamflow reanalysis
+# 3. Query streamflow reanalysis data
 tbl_re <- flowfabric_streamflow_query(
-	dataset_id = "nws_owp_nwm_analysis",
-	feature_ids = c("101"),
-	issue_time = "latest"
+  "nws_owp_nwm_reanalysis_3_0",
+  feature_ids = c("101", "1001"),
+  start_time = "2018-01-01",
+  end_time = "2018-01-31"
 )
 
-# 3. Query ratings
-ratings <- flowfabric_ratings_query(feature_ids = c("101", "1001"), type = "rem")
-
-# 4. List available datasets
-datasets <- flowfabric_list_datasets()
-head(datasets)
+# 4. Query ratings
+```r
+ratings <- flowfabric_ratings_query(
+    feature_ids = c("101", "1001"), 
+    type = "rem"
+)
 ```
 
 ## Authentication & Token Caching
+
+Using this platform requires authentication via the Lynker Spatial Portal. Accounts are free to set up and use. If use exceeds costs we can burden we will reach out to power users to better understand how we can help.
+
+To get access, users can create an account here: https://proxy.lynker-spatial.com/
+
 The first API call will prompt you to log in via browser. Your token is then cached and reused for all future calls—no repeated browser prompts!
 
 **Manual token refresh:**
@@ -56,7 +66,7 @@ flowfabric_refresh_token() # Forces re-authentication and updates cached token
 You can always pass a token explicitly:
 ```r
 token <- hfutils::lynker_spatial_auth()$id_token
-tbl <- flowfabric_streamflow_query("nwm-forecast", feature_ids = c("101"), token = token)
+tbl <- flowfabric_streamflow_query("nwm-nws_owp_nwm_analysis", feature_ids = c("101"), token = token)
 ```
 
 ## Troubleshooting

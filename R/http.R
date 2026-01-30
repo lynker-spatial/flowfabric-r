@@ -24,8 +24,8 @@ flowfabric_get <- function(endpoint, token = NULL, ...) {
 }
 
 #' Perform a POST request to the FlowFabric API
-#' 
-#' @param endpoint API endpoint (e.g., "/v1/datasets/nwm-forecast/streamflow:query")
+#'
+#' @param endpoint API endpoint (e.g., "/v1/datasets/nwm-forecast/streamflow")
 #' @param body List. JSON body for the request.
 #' @param token Optional. Bearer token. If NULL, will use flowfabric_get_token().
 #' @param ... Additional httr2::request() options

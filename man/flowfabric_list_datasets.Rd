@@ -4,7 +4,7 @@
 \alias{flowfabric_list_datasets}
 \title{List all available datasets}
 \usage{
-flowfabric_list_datasets()
+flowfabric_list_datasets(token = NULL)
 }
 \value{
 A data.frame of datasets

@@ -7,15 +7,12 @@
 flowfabric_healthz(token = NULL, verbose = FALSE)
 }
 \arguments{
-\item{token}{Optional. Bearer token. Uses get_bearer_token() if NULL.}
+\item{token}{Optional Bearer token. If NULL, will use `get_bearer_token()`}
 
-\item{verbose}{Use TRUE for debugging purposes}
-}
-\value{
-Health status and metadata
+\item{verbose}{Logical; print debug messages}
 }
 \description{
-Health check
+Wrapper for `GET /healthz` returning parsed JSON (or status object).
 }
 \examples{
 \dontrun{

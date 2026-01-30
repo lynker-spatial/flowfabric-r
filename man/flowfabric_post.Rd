@@ -7,7 +7,7 @@
 flowfabric_post(endpoint, body, token = NULL, ..., verbose = FALSE)
 }
 \arguments{
-\item{endpoint}{API endpoint (e.g., "/v1/datasets/nwm-forecast/streamflow:query")}
+\item{endpoint}{API endpoint (e.g., "/v1/datasets/nwm-forecast/streamflow")}
 
 \item{body}{List. JSON body for the request.}
 

@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title> • flowfabricr</title>
+<title>Advanced Usage of flowfabricr • flowfabricr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Fira_Sans-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/Fira_Mono-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Advanced Usage of flowfabricr">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -51,7 +51,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1></h1>
+      <h1>Advanced Usage of flowfabricr</h1>
             
       
 
@@ -60,14 +60,9 @@
 
     
     
-<p>title: “Advanced Usage of flowfabricr” output:
-rmarkdown::html_vignette vignette: &gt; % % % #’ <span class="citation">@setup</span></p>
+<p>#’ <span class="citation">@setup</span></p>
 <div class="section level2">
 <h2 id="advanced-usage">Advanced Usage<a class="anchor" aria-label="anchor" href="#advanced-usage"></a>
-</h2>
-</div>
-<div class="section level2">
-<h2 id="advanced-usage-1">Advanced Usage<a class="anchor" aria-label="anchor" href="#advanced-usage-1"></a>
 </h2>
 <p>This vignette covers advanced features of <code>flowfabricr</code>,
 including custom HTTP requests, error handling, and working with Arrow
@@ -107,57 +102,7 @@ IPC data.</p>
 </h3>
 <p>All data queries return Arrow tables. Convert to data.frame as
 needed:</p>
-<p>df &lt;- as.data.frame(tbl)</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">is_interactive</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowfabric_streamflow_query.html">flowfabric_streamflow_query</a></span><span class="op">(</span><span class="st">"nwm-forecast"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>issue_time <span class="op">=</span> <span class="st">"latest"</span>, scope <span class="op">=</span> <span class="st">"features"</span>, feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"101"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'Skipping Arrow IPC example: not running interactively.\n'</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<pre><code><span><span class="co">## Skipping Arrow IPC example: not running interactively.</span></span></code></pre>
-<p>This vignette covers advanced features of <code>flowfabricr</code>,
-including custom HTTP requests, error handling, and working with Arrow
-IPC data.</p>
-</div>
-<div class="section level3">
-<h3 id="custom-http-requests-1">Custom HTTP Requests<a class="anchor" aria-label="anchor" href="#custom-http-requests-1"></a>
-</h3>
-<p>You can use the low-level HTTP helpers for custom endpoints:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">is_interactive</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowfabric_get.html">flowfabric_get</a></span><span class="op">(</span><span class="st">"/healthz"</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">httr2</span><span class="fu">::</span><span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html" class="external-link">resp_body_json</a></span><span class="op">(</span><span class="va">resp</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'Skipping HTTP request: not running interactively.\n'</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<pre><code><span><span class="co">## Skipping HTTP request: not running interactively.</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="error-handling-1">Error Handling<a class="anchor" aria-label="anchor" href="#error-handling-1"></a>
-</h3>
-<p>All API errors return a structured JSON error. Use
-<code>tryCatch</code> to handle errors gracefully:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">is_interactive</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>    <span class="fu"><a href="../reference/flowfabric_streamflow_query.html">flowfabric_streamflow_query</a></span><span class="op">(</span><span class="st">"bad-dataset"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span>, error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"API error: "</span>, <span class="va">e</span><span class="op">$</span><span class="va">message</span><span class="op">)</span></span>
-<span>  <span class="op">}</span><span class="op">)</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'Skipping error handling example: not running interactively.\n'</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<pre><code><span><span class="co">## Skipping error handling example: not running interactively.</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="arrow-ipc-data-1">Arrow IPC Data<a class="anchor" aria-label="anchor" href="#arrow-ipc-data-1"></a>
-</h3>
-<p>All data queries return Arrow tables. Convert to data.frame as
-needed:</p>
-<p>df &lt;- as.data.frame(tbl)</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">is_interactive</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowfabric_streamflow_query.html">flowfabric_streamflow_query</a></span><span class="op">(</span><span class="st">"nwm-forecast"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>issue_time <span class="op">=</span> <span class="st">"latest"</span>, scope <span class="op">=</span> <span class="st">"features"</span>, feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"101"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span></span>

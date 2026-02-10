@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title> • flowfabricr</title>
+<title>Authentication with flowfabricr • flowfabricr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Fira_Sans-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/Fira_Mono-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Authentication with flowfabricr">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -51,7 +51,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1></h1>
+      <h1>Authentication with flowfabricr</h1>
             
       
 
@@ -60,8 +60,9 @@
 
     
     
-<p>title: “Authentication with flowfabricr” output:
-rmarkdown::html_vignette vignette: &gt; % % # Authentication</p>
+<div class="section level2">
+<h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a>
+</h2>
 <p><code>flowfabricr</code> uses JWT Bearer authentication. By default,
 it manages your token in the background using
 <code><a href="../reference/flowfabric_token.html">flowfabric_token()</a></code>, leveraging the <code>hfutils</code>
@@ -112,61 +113,6 @@ interactively:</p>
 </div>
 <div class="section level3">
 <h3 id="token-refresh">Token Refresh<a class="anchor" aria-label="anchor" href="#token-refresh"></a>
-</h3>
-<p>Tokens are automatically refreshed if expired, using the underlying
-<code>hfutils</code> logic.</p>
-<p>See the <a href="../reference/index.html">hfutils documentation</a>
-for advanced authentication options.</p>
-</div>
-<div class="section level2">
-<h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a>
-</h2>
-<p><code>flowfabricr</code> uses JWT Bearer authentication. By default,
-it manages your token in the background using
-<code><a href="../reference/flowfabric_token.html">flowfabric_token()</a></code>, leveraging the <code>hfutils</code>
-package for OAuth2 flows. You can also set or override the token
-explicitly for any function call. ## Background (global) token</p>
-<p>Authenticate once per session:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">is_interactive</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="va">is_interactive</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># This will obtain and cache a token for all API calls</span></span>
-<span>  <span class="fu"><a href="../reference/flowfabric_token.html">flowfabric_token</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># triggers login if needed</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'Skipping authentication: not running interactively.\n'</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<pre><code><span><span class="co">## Skipping authentication: not running interactively.</span></span></code></pre>
-<div class="section level3">
-<h3 id="explicit-token-usage-1">Explicit token usage<a class="anchor" aria-label="anchor" href="#explicit-token-usage-1"></a>
-</h3>
-<p>datasets &lt;- flowfabric_list_datasets(token = token)</p>
-<p>You can pass a token directly to any API function:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowfabric_get_token.html">flowfabric_get_token</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowfabric_list_datasets.html">flowfabric_list_datasets</a></span><span class="op">(</span>token <span class="op">=</span> <span class="va">token</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">datasets</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="getting-a-token-1">Getting a Token<a class="anchor" aria-label="anchor" href="#getting-a-token-1"></a>
-</h3>
-<p>You can use the built-in function to obtain a token
-interactively:</p>
-<p>token</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="va">is_interactive</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowfabric_get_token.html">flowfabric_get_token</a></span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">token</span><span class="op">)</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'Skipping token retrieval: not running interactively.\n'</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<pre><code><span><span class="co">## Skipping token retrieval: not running interactively.</span></span></code></pre>
-<p>Or pass a token directly to any API function:</p>
-<p>datasets &lt;- flowfabric_list_datasets(token = “YOUR_TOKEN”)</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/flowfabric_list_datasets.html">flowfabric_list_datasets</a></span><span class="op">(</span>token <span class="op">=</span> <span class="st">"YOUR_TOKEN"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="token-refresh-1">Token Refresh<a class="anchor" aria-label="anchor" href="#token-refresh-1"></a>
 </h3>
 <p>Tokens are automatically refreshed if expired, using the underlying
 <code>hfutils</code> logic.</p>

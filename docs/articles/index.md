@@ -6,8 +6,8 @@
 
 ### Authentication
 
-- [UNKNOWN TITLE](authentication.md):
+- [Authentication with flowfabricr](authentication.md):
 
 ### Advanced Usage
 
-- [UNKNOWN TITLE](advanced.md):
+- [Advanced Usage of flowfabricr](advanced.md):

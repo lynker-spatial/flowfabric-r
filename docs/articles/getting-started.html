@@ -103,45 +103,43 @@ explicitly for any function call.</p>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">'Skipping dataset listing: not running interactively.\n'</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Skipping dataset listing: not running interactively.</span></span></code></pre>
-<p>See the Authentication vignette for more details.</p>
-<p>datasets &lt;- flowfabric_list_datasets() datasets</p>
+<p>See the <a href="authentication.html">Authentication vignette</a> for
+more details.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>\dontrun{</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>datasets <span class="ot">&lt;-</span> <span class="fu">flowfabric_list_datasets</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>datasets</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="list-datasets">List Datasets<a class="anchor" aria-label="anchor" href="#list-datasets"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>\dontrun{</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>datasets <span class="ot">&lt;-</span> <span class="fu">flowfabric_list_datasets</span>()</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>datasets</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>}</span></code></pre></div>
-<p>est &lt;- flowfabric_streamflow_estimate( dataset_id =
-“nwm-forecast”, params = list(issue_time = “latest”, scope = “features”,
-feature_ids = c(“101”)) ) est</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>\dontrun{</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>datasets <span class="ot">&lt;-</span> <span class="fu">flowfabric_list_datasets</span>()</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>datasets</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="estimate-query-cost">Estimate Query Cost<a class="anchor" aria-label="anchor" href="#estimate-query-cost"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>\dontrun{</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">flowfabric_streamflow_estimate</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">dataset_id =</span> <span class="st">"nwm-forecast"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">params =</span> <span class="fu">list</span>(<span class="at">issue_time =</span> <span class="st">"latest"</span>, <span class="at">scope =</span> <span class="st">"features"</span>, <span class="at">feature_ids =</span> <span class="fu">c</span>(<span class="st">"101"</span>))</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>)</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>est</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>}</span></code></pre></div>
-<p>tbl &lt;- flowfabric_streamflow_query( dataset_id = “nwm-forecast”,
-params = list(issue_time = “latest”, scope = “features”, feature_ids =
-c(“101”)) ) as.data.frame(tbl)</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>\dontrun{</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">flowfabric_streamflow_estimate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">dataset_id =</span> <span class="st">"nwm-forecast"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">params =</span> <span class="fu">list</span>(<span class="at">issue_time =</span> <span class="st">"latest"</span>, <span class="at">scope =</span> <span class="st">"features"</span>, <span class="at">feature_ids =</span> <span class="fu">c</span>(<span class="st">"101"</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>est</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>}</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="query-streamflow-data">Query Streamflow Data<a class="anchor" aria-label="anchor" href="#query-streamflow-data"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>\dontrun{</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">flowfabric_streamflow_query</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">dataset_id =</span> <span class="st">"nwm-forecast"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">params =</span> <span class="fu">list</span>(<span class="at">issue_time =</span> <span class="st">"latest"</span>, <span class="at">scope =</span> <span class="st">"features"</span>, <span class="at">feature_ids =</span> <span class="fu">c</span>(<span class="st">"101"</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">as.data.frame</span>(tbl)</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>\dontrun{</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">flowfabric_streamflow_query</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">dataset_id =</span> <span class="st">"nwm-forecast"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">params =</span> <span class="fu">list</span>(<span class="at">issue_time =</span> <span class="st">"latest"</span>, <span class="at">scope =</span> <span class="st">"features"</span>, <span class="at">feature_ids =</span> <span class="fu">c</span>(<span class="st">"101"</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">as.data.frame</span>(tbl)</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>}</span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

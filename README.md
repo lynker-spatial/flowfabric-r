@@ -1,7 +1,9 @@
 
 # flowfabricr: Effortless R Access to FlowFabric API
 
-`flowfabricr` is a powerful R client for the FlowFabric API, providing seamless access to hydrologic forecasts, reanalysis, rating curves, and datasets. With robust authentication and automatic token caching, you can focus on data science, not on data munging plumbing.
+`flowfabricr` is a powerful R client for the FlowFabric API, providing seamless access to hydrologic forecasts, reanalysis, rating curves, and datasets. With robust authentication and automatic token caching, you can focus on data science, not on data munging plumbing. 
+
+See flowfabric working live here: https://flowfabric-live.lynker-spatial.com 
 
 ## Key Features
 - **Evolving catalog** of harmonized data from multiple models
@@ -50,7 +52,7 @@ ratings <- flowfabric_ratings_query(
 
 ## Authentication & Token Caching
 
-Using this platform requires authentication via the Lynker Spatial Portal. Accounts are free to set up and use. If use exceeds costs we can burden we will reach out to power users to better understand how we can help.
+Using this platform requires authentication via the Lynker Spatial Portal (https://lynker-spatial.com/). Accounts are free to set up and use. If use exceeds costs we can burden we will reach out to power users to better understand how we can help.
 
 To get access, users can create an account here: https://proxy.lynker-spatial.com/
 

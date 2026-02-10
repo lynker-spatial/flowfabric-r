@@ -47,9 +47,14 @@ if (is_interactive) {
 
     ## Skipping dataset listing: not running interactively.
 
-See the Authentication vignette for more details.
+See the [Authentication vignette](authentication.md) for more details.
 
-datasets \<- flowfabric_list_datasets() datasets
+``` r
+\dontrun{
+datasets <- flowfabric_list_datasets()
+datasets
+}
+```
 
 ## List Datasets
 
@@ -59,10 +64,6 @@ datasets <- flowfabric_list_datasets()
 datasets
 }
 ```
-
-est \<- flowfabric_streamflow_estimate( dataset_id = “nwm-forecast”,
-params = list(issue_time = “latest”, scope = “features”, feature_ids =
-c(“101”)) ) est
 
 ## Estimate Query Cost
 
@@ -75,10 +76,6 @@ est <- flowfabric_streamflow_estimate(
 est
 }
 ```
-
-tbl \<- flowfabric_streamflow_query( dataset_id = “nwm-forecast”, params
-= list(issue_time = “latest”, scope = “features”, feature_ids =
-c(“101”)) ) as.data.frame(tbl)
 
 ## Query Streamflow Data
 

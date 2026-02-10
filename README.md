@@ -1,7 +1,9 @@
 
 # flowfabricr: Effortless R Access to FlowFabric API
 
-`flowfabricr` is a powerful R client for the FlowFabric API, providing seamless access to hydrologic forecasts, reanalysis, rating curves, and datasets. With robust authentication and automatic token caching, you can focus on data science, not on data munging plumbing.
+`flowfabricr` is a powerful R client for the FlowFabric API, providing seamless access to hydrologic forecasts, reanalysis, rating curves, and datasets. With robust authentication and automatic token caching, you can focus on data science, not on data munging plumbing. 
+
+See flowfabric working live here: https://flowfabric-live.lynker-spatial.com 
 
 ## Key Features
 - **Evolving catalog** of harmonized data from multiple models
@@ -30,19 +32,18 @@ tbl <- flowfabric_streamflow_query(
 	feature_ids = c("101", "1001"),
 	issue_time = "latest"
 )
-df <- as.data.frame(tbl)
-head(df)
+head(tbl)
 
 # 3. Query streamflow reanalysis data
 tbl_re <- flowfabric_streamflow_query(
   "nws_owp_nwm_reanalysis_3_0",
-  feature_ids = c("101", "1001"),
+  feature_ids = c("101", "179", "1001"),
   start_time = "2018-01-01",
   end_time = "2018-01-31"
 )
+head(tbl_re)
 
 # 4. Query ratings
-```r
 ratings <- flowfabric_ratings_query(
     feature_ids = c("101", "1001"), 
     type = "rem"
@@ -51,7 +52,7 @@ ratings <- flowfabric_ratings_query(
 
 ## Authentication & Token Caching
 
-Using this platform requires authentication via the Lynker Spatial Portal. Accounts are free to set up and use. If use exceeds costs we can burden we will reach out to power users to better understand how we can help.
+Using this platform requires authentication via the Lynker Spatial Portal (https://lynker-spatial.com/). Accounts are free to set up and use. If use exceeds costs we can burden we will reach out to power users to better understand how we can help.
 
 To get access, users can create an account here: https://proxy.lynker-spatial.com/
 
@@ -66,7 +67,7 @@ flowfabric_refresh_token() # Forces re-authentication and updates cached token
 You can always pass a token explicitly:
 ```r
 token <- hfutils::lynker_spatial_auth()$id_token
-tbl <- flowfabric_streamflow_query("nwm-nws_owp_nwm_analysis", feature_ids = c("101"), token = token)
+tbl <- flowfabric_streamflow_query("nws_owp_nwm_analysis", feature_ids = c("101"), token = token)
 ```
 
 ## Troubleshooting
@@ -75,5 +76,5 @@ tbl <- flowfabric_streamflow_query("nwm-nws_owp_nwm_analysis", feature_ids = c("
 - Use `verbose = TRUE` in any endpoint for detailed debug output.
 
 ## Learn More
-- See the vignettes for advanced usage, authentication, and custom queries.
+- See the [vignettes](articles/index.md) for advanced usage, authentication, and custom queries.
 - All API responses are Arrow tables for high-performance analytics.

@@ -21,17 +21,8 @@ test_that("flowfabric_get_dataset returns a list", {
 
 test_that("flowfabric_get_latest_run returns a list", {
   token <- get_bearer_token()
-  dataset_id <- "nws_owp_nwm_reanalysis_3_0"
+  dataset_id <- "nws_owp_nwm_analysis"
   result <- flowfabric_get_latest_run(dataset_id, token)
-  expect_type(result, "list")
-})
-
-# Test for flowfabric_get_run
-
-test_that("flowfabric_get_run returns a list", {
-  token <- get_bearer_token()
-  dataset_id <- "nws_owp_nwm_reanalysis_3_0"
-  result <- flowfabric_get_run(dataset_id, issue_time = "2026010514", token = token)
   expect_type(result, "list")
 })
 
@@ -46,12 +37,10 @@ test_that("flowfabric_streamflow_estimate returns a list", {
 
 # Test for flowfabric_streamflow_query
 
-test_that("flowfabric_streamflow_query returns an Arrow Table", {
-  token <- get_bearer_token()
+test_that("flowfabric_streamflow_query returns a data frame", {
   dataset_id <- "nws_owp_nwm_analysis"
-  params <- list(query_mode = "run", issue_time = "2026010514")
-  result <- flowfabric_streamflow_query(dataset_id, params, token = token)
-  expect_s3_class(result, "ArrowTable")
+  result <- flowfabric_streamflow_query(dataset_id)
+  expect_s3_class(result, "data.frame")
 })
 
 # Test for flowfabric_ratings_query
@@ -75,7 +64,7 @@ test_that("flowfabric_ratings_estimate returns a list", {
 
 test_that("flowfabric_stage_query returns an Arrow Table", {
   token <- get_bearer_token()
-  dataset_id <- "nws_owp_nwm_analysis"
+  dataset_id <- "usgs_nwis_stage"
   params <- list(param1 = "value1")
   result <- flowfabric_stage_query(dataset_id, params, token = token)
   expect_s3_class(result, "ArrowTable")

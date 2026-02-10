@@ -30,11 +30,23 @@ reference:
       - flowfabric_stage_query
       - flowfabric_get_token
       - flowfabric_token
+      - flowfabric_get_dataset
+      - flowfabric_get_latest_run
+      - flowfabric_healthz
+      - flowfabric_inundation_ids
+      - flowfabric_ratings_estimate
+      - get_bearer_token
       - flowfabricr
+  - title: "Catalog Utilities"
+    contents:
+      - auto_streamflow_params
   - title: "HTTP Utilities"
     contents:
       - flowfabric_get
       - flowfabric_post
+  - title: "Auth Utilities"
+    contents:
+      - flowfabric_refresh_token
 articles:
   - title: "Getting Started"
     contents:

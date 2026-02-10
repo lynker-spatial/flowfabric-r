@@ -1,11 +1,13 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>/404.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
 <url><loc>/articles/advanced.html</loc></url>
 <url><loc>/articles/authentication.html</loc></url>
 <url><loc>/articles/getting-started.html</loc></url>
 <url><loc>/articles/index.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
 <url><loc>/reference/flowfabric_get.html</loc></url>
 <url><loc>/reference/flowfabric_get_token.html</loc></url>
 <url><loc>/reference/flowfabric_list_datasets.html</loc></url>
@@ -15,7 +17,15 @@
 <url><loc>/reference/flowfabric_streamflow_estimate.html</loc></url>
 <url><loc>/reference/flowfabric_streamflow_query.html</loc></url>
 <url><loc>/reference/flowfabric_token.html</loc></url>
-<url><loc>/reference/flowfabricr.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/auto_streamflow_params.html</loc></url>
+<url><loc>/reference/flowfabric_get_dataset.html</loc></url>
+<url><loc>/reference/flowfabric_get_latest_run.html</loc></url>
+<url><loc>/reference/flowfabric_healthz.html</loc></url>
+<url><loc>/reference/flowfabric_inundation_ids.html</loc></url>
+<url><loc>/reference/flowfabric_ratings_estimate.html</loc></url>
+<url><loc>/reference/flowfabricr-package.html</loc></url>
+<url><loc>/reference/get_bearer_token.html</loc></url>
+<url><loc>/reference/flowfabric_refresh_token.html</loc></url>
 </urlset>
 

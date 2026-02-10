@@ -6,7 +6,7 @@
 \usage{
 flowfabric_streamflow_estimate(
   dataset_id,
-  params = list(),
+  params = NULL,
   token = NULL,
   verbose = FALSE
 )

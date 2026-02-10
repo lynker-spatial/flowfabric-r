@@ -391,7 +391,6 @@ flowfabric_get_dataset <- function(dataset_id, token = NULL, verbose = FALSE) {
   # httr2::resp_body_json(resp)
   base <- 'https://flowfabric.lynker-spatial.com/'
   jsonlite::fromJSON(paste0(base, dataset_id), simplifyDataFrame = TRUE) 
-  
 }
 
 
@@ -412,36 +411,8 @@ flowfabric_get_latest_run <- function(dataset_id, token = NULL, verbose = FALSE)
     token <- get_bearer_token()
     if (verbose) message("[flowfabric_get_latest_run] Using token from get_bearer_token()")
   }
-  endpoint <- paste0("/v1/datasets/", dataset_id, "/runs/latest")
-  resp <- flowfabric_get(endpoint, token = token, verbose = verbose)
-  if (verbose) message("[flowfabric_get_latest_run] Parsing response as JSON.")
-  httr2::resp_body_json(resp)
+  flowfabric_streamflow_query(dataset_id, issue_time = "latest")
 }
-
-
-#' Get a specific run by issue_time
-#'
-#' Wrapper for `GET /v1/datasets/\{dataset_id\}/runs/\{issue_time\}` returning parsed JSON.
-#' @param dataset_id Dataset identifier
-#' @param issue_time Issue time string (e.g., "2026012316")
-#' @param token Optional Bearer token. If NULL, will use `get_bearer_token()`
-#' @param verbose Logical; print debug messages
-#' @examples
-#' \dontrun{
-#' recent_run <- flowfabric_get_run("nws_owp_nwm_analysis", issue_time = "2026010514")
-#' }
-#' @export
-flowfabric_get_run <- function(dataset_id, issue_time, token = NULL, verbose = FALSE) {
-  if (is.null(token)) {
-    token <- get_bearer_token()
-    if (verbose) message("[flowfabric_get_run] Using token from get_bearer_token()")
-  }
-  endpoint <- paste0("/v1/datasets/", dataset_id, "/runs/", issue_time)
-  resp <- flowfabric_get(endpoint, token = token, verbose = verbose)
-  if (verbose) message("[flowfabric_get_run] Parsing response as JSON.")
-  httr2::resp_body_json(resp)
-}
-
 
 #' Estimate streamflow result size and get export_url when available
 #'
@@ -465,13 +436,30 @@ flowfabric_get_run <- function(dataset_id, issue_time, token = NULL, verbose = F
 #' )
 #' }
 #' @export
-flowfabric_streamflow_estimate <- function(dataset_id, params = list(), token = NULL, verbose = FALSE) {
+flowfabric_streamflow_estimate <- function(dataset_id, params = NULL, token = NULL, verbose = FALSE) {
   if (is.null(token)) {
     token <- get_bearer_token()
     if (verbose) message("[flowfabric_streamflow_estimate] Using token from get_bearer_token()")
   }
-  endpoint <- paste0("/v1/datasets/", dataset_id, "/streamflow?estimate=true")
-  resp <- flowfabric_post(endpoint, body = params, token = token, verbose = verbose)
+  query_params <- list(params)
+  # Auto-fill missing key params using catalog heuristics
+  if (!exists("auto_streamflow_params", mode = "function")) {
+    source("R/catalog_utils.R")
+  }
+  auto_params <- auto_streamflow_params(dataset_id)
+  # Fill in any missing required params from auto_params
+  for (nm in names(auto_params)) {
+    if (is.null(query_params[[nm]])) {
+      query_params[[nm]] <- auto_params[[nm]]
+    }
+  }
+  # If nothing provided, use auto-populated params entirely
+  if (length(query_params) == 0) {
+    query_params <- auto_params
+    if (verbose) message("[flowfabric_streamflow_estimate] Auto-populated params from catalog.")
+  }
+  endpoint <- paste0("/v1/datasets/", dataset_id, "/streamflow?estimate=TRUE")
+  resp <- flowfabric_post(endpoint, body = query_params, verbose = verbose)
   if (verbose) message("[flowfabric_streamflow_estimate] Parsing response as JSON.")
   return(httr2::resp_body_json(resp))
 }

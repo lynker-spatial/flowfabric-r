@@ -12,7 +12,7 @@ flowfabric_healthz(token = NULL, verbose = FALSE)
 \item{verbose}{Logical; print debug messages}
 }
 \description{
-Wrapper for 'GET /healthz` returning parsed JSON (or status object).
+Wrapper for `GET /healthz` returning parsed JSON (or status object).
 }
 \examples{
 \dontrun{

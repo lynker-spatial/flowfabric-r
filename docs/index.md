@@ -37,19 +37,18 @@ tbl <- flowfabric_streamflow_query(
     feature_ids = c("101", "1001"),
     issue_time = "latest"
 )
-df <- as.data.frame(tbl)
-head(df)
+head(tbl)
 
 # 3. Query streamflow reanalysis data
 tbl_re <- flowfabric_streamflow_query(
   "nws_owp_nwm_reanalysis_3_0",
-  feature_ids = c("101", "1001"),
+  feature_ids = c("101", "179", "1001"),
   start_time = "2018-01-01",
   end_time = "2018-01-31"
 )
+head(tbl_re)
 
 # 4. Query ratings
-```r
 ratings <- flowfabric_ratings_query(
     feature_ids = c("101", "1001"), 
     type = "rem"
@@ -84,7 +83,8 @@ tbl <- flowfabric_streamflow_query("nws_owp_nwm_analysis", feature_ids = c("101"
 
 ## Troubleshooting
 
-- If you see repeated browser prompts, call `flowfabric_refresh_token()`
+- If you see repeated browser prompts, call
+  [`flowfabric_refresh_token()`](reference/flowfabric_refresh_token.md)
   once, then retry your queries.
 - If you switch users, manually refresh the token.
 - Use `verbose = TRUE` in any endpoint for detailed debug output.

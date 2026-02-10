@@ -69,6 +69,8 @@ flowfabric_token <- function(refresh = FALSE) {
   flowfabric_get_token(force_refresh = refresh)
 }
 
+#' Force refresh the token
+#' @export
 flowfabric_refresh_token <- function() {
   flowfabric_get_token(force_refresh = TRUE)
 }

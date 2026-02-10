@@ -43,3 +43,8 @@ Core functions for interacting with the FlowFabric API.
   FlowFabric API
 - [`flowfabric_post()`](flowfabric_post.md) : Perform a POST request to
   the FlowFabric API
+
+## Auth Utilities
+
+- [`flowfabric_refresh_token()`](flowfabric_refresh_token.md) : Force
+  refresh the token

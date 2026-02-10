@@ -75,36 +75,36 @@
 <div class="section level2">
 <h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(flowfabricr)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># 1. List available datasets</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>datasets <span class="ot">&lt;-</span> <span class="fu">flowfabric_list_datasets</span>()</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">head</span>(datasets)</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># 2. Query streamflow forecast (first call prompts login, then caches token)</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># More on atuhentication below ...</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">flowfabric_streamflow_query</span>(</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>    <span class="at">dataset_id =</span> <span class="st">"nws_owp_nwm_analysis"</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>    <span class="at">feature_ids =</span> <span class="fu">c</span>(<span class="st">"101"</span>, <span class="st">"1001"</span>),</span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>    <span class="at">issue_time =</span> <span class="st">"latest"</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>)</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(tbl)</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="fu">head</span>(df)</span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># 3. Query streamflow reanalysis data</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>tbl_re <span class="ot">&lt;-</span> <span class="fu">flowfabric_streamflow_query</span>(</span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>  <span class="st">"nws_owp_nwm_reanalysis_3_0"</span>,</span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>  <span class="at">feature_ids =</span> <span class="fu">c</span>(<span class="st">"101"</span>, <span class="st">"1001"</span>),</span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>  <span class="at">start_time =</span> <span class="st">"2018-01-01"</span>,</span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>  <span class="at">end_time =</span> <span class="st">"2018-01-31"</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>)</span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co"># 4. Query ratings</span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="st">```</span><span class="at">r</span></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="at">ratings &lt;- flowfabric_ratings_query(</span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="at">    feature_ids = c("101", "1001"), </span></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="at">    type = "rem"</span></span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="at">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">flowfabricr</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 1. List available datasets</span></span>
+<span><span class="va">datasets</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/flowfabric_list_datasets.html">flowfabric_list_datasets</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">datasets</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 2. Query streamflow forecast (first call prompts login, then caches token)</span></span>
+<span><span class="co"># More on atuhentication below ...</span></span>
+<span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/flowfabric_streamflow_query.html">flowfabric_streamflow_query</a></span><span class="op">(</span></span>
+<span>    dataset_id <span class="op">=</span> <span class="st">"nws_owp_nwm_analysis"</span>,</span>
+<span>    feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"101"</span>, <span class="st">"1001"</span><span class="op">)</span>,</span>
+<span>    issue_time <span class="op">=</span> <span class="st">"latest"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3. Query streamflow reanalysis data</span></span>
+<span><span class="va">tbl_re</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/flowfabric_streamflow_query.html">flowfabric_streamflow_query</a></span><span class="op">(</span></span>
+<span>  <span class="st">"nws_owp_nwm_reanalysis_3_0"</span>,</span>
+<span>  feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"101"</span>, <span class="st">"179"</span>, <span class="st">"1001"</span><span class="op">)</span>,</span>
+<span>  start_time <span class="op">=</span> <span class="st">"2018-01-01"</span>,</span>
+<span>  end_time <span class="op">=</span> <span class="st">"2018-01-31"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tbl_re</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 4. Query ratings</span></span>
+<span><span class="va">ratings</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/flowfabric_ratings_query.html">flowfabric_ratings_query</a></span><span class="op">(</span></span>
+<span>    feature_ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"101"</span>, <span class="st">"1001"</span><span class="op">)</span>, </span>
+<span>    type <span class="op">=</span> <span class="st">"rem"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="authentication--token-caching">Authentication &amp; Token Caching<a class="anchor" aria-label="anchor" href="#authentication--token-caching"></a>
@@ -114,7 +114,7 @@
 <p>The first API call will prompt you to log in via browser. Your token is then cached and reused for all future calls—no repeated browser prompts!</p>
 <p><strong>Manual token refresh:</strong></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">flowfabric_refresh_token</span><span class="op">(</span><span class="op">)</span> <span class="co"># Forces re-authentication and updates cached token</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/flowfabric_refresh_token.html">flowfabric_refresh_token</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Forces re-authentication and updates cached token</span></span></code></pre></div>
 <p><strong>Advanced:</strong> You can always pass a token explicitly:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">token</span> <span class="op">&lt;-</span> <span class="fu">hfutils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/hfutils/man/lynker_spatial_auth.html" class="external-link">lynker_spatial_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">id_token</span></span>
@@ -124,7 +124,7 @@
 <h2 id="troubleshooting">Troubleshooting<a class="anchor" aria-label="anchor" href="#troubleshooting"></a>
 </h2>
 <ul>
-<li>If you see repeated browser prompts, call <code>flowfabric_refresh_token()</code> once, then retry your queries.</li>
+<li>If you see repeated browser prompts, call <code><a href="reference/flowfabric_refresh_token.html">flowfabric_refresh_token()</a></code> once, then retry your queries.</li>
 <li>If you switch users, manually refresh the token.</li>
 <li>Use <code>verbose = TRUE</code> in any endpoint for detailed debug output.</li>
 </ul>

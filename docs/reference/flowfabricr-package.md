@@ -8,3 +8,7 @@ and tests.
 ## Author
 
 **Maintainer**: Mike Johnson <mjohnson@lynker.com>
+
+Authors:
+
+- Paul Linza <plinza@lynker.com>

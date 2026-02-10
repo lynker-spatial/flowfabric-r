@@ -11,5 +11,10 @@ This package provides a high-performance R interface to the FlowFabric REST API,
 \author{
 \strong{Maintainer}: Mike Johnson \email{mjohnson@lynker.com}
 
+Authors:
+\itemize{
+  \item Paul Linza \email{plinza@lynker.com}
+}
+
 }
 \keyword{internal}

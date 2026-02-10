@@ -57,6 +57,13 @@ result <- flowfabric_streamflow_query(
 )
 print(result)
 
+summary(result)
+
+# get part of the results based on feature_id and streamflow
+result <- result[!is.na(result['streamflow']), ]
+result <- result[result['feature_id'] < 100000, ] 
+result <- result[result['streamflow'] > 1, ]
+
 # estimate size of streamflow data
 estimate <- flowfabric_streamflow_estimate(
   "nws_owp_nwm_analysis", 

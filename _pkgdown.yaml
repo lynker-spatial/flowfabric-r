@@ -44,6 +44,9 @@ reference:
     contents:
       - flowfabric_get
       - flowfabric_post
+  - title: "Auth Utilities"
+    contents:
+      - flowfabric_refresh_token
 articles:
   - title: "Getting Started"
     contents:

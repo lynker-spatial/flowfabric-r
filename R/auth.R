@@ -75,6 +75,7 @@ flowfabric_refresh_token <- function() {
   flowfabric_get_token(force_refresh = TRUE)
 }
 
+
 #' @export
 # flowfabric_token <- local({
 #   .token <- NULL

@@ -5,9 +5,8 @@ Version: 0.1.0
 Authors@R: c(person("Mike", "Johnson", email = "mjohnson@lynker.com", role = c("aut", "cre")), 
            person("Paul", "Linza", email = "plinza@lynker.com", role="aut"))
 Description: High-performance R client for the FlowFabric REST API, including JWT authentication (leveraging and improving hfutils). Designed for expert R users.
-License: MIT + file LICENSE
+License: Apache License (== 2.0)
 Encoding: UTF-8
-LazyData: true
 Depends: R (>= 4.1.0)
 Imports:
     httr2,

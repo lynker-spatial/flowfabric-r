@@ -37,8 +37,8 @@ flowfabric_get_token <- function(force_refresh = FALSE) {
   # Authenticate and cache
   token_fun <- tryCatch(get("lynker_spatial_token", asNamespace("hfutils")), error = function(e) NULL)
   refresh_fun <- tryCatch(get("lynker_spatial_refresh", asNamespace("hfutils")), error = function(e) NULL)
-  if (is.null(token_fun)) token_fun <- hfutils::lynker_spatial_token
-  if (is.null(refresh_fun)) refresh_fun <- hfutils::lynker_spatial_refresh
+  if (is.null(token_fun)) token_fun <- hfutils:::lynker_spatial_token
+  if (is.null(refresh_fun)) refresh_fun <- hfutils:::lynker_spatial_refresh
   token <- token_fun()
   if (inherits(token, "httr2_token")) {
     if (force_refresh || ("expires_at" %in% names(token) && now >= as.POSIXct(token$expires_at))) {

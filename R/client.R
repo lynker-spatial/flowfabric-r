@@ -188,12 +188,17 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
       # Try direct Arrow read first (depends on Arrow build supporting HTTP)
       tryCatch({
         tbl <- arrow::read_parquet(export_url)
+        if ("init_time" %in% names(tbl)) tbl$init_time <- as.POSIXct(tbl$init_time, tz = "UTC")
+        if ("forecast_time" %in% names(tbl)) tbl$forecast_time <- as.POSIXct(tbl$forecast_time, tz = "UTC")
         return(tbl)
       }, error = function(e) {
         message("Direct arrow read failed: ", e$message, " - falling back to download")
         tf <- tempfile(fileext = ".parquet")
         curl::curl_download(export_url, tf)
-        return(arrow::read_parquet(tf))
+        tbl <- arrow::read_parquet(tf)
+        if ("init_time" %in% names(tbl)) tbl$init_time <- as.POSIXct(tbl$init_time, tz = "UTC")
+        if ("forecast_time" %in% names(tbl)) tbl$forecast_time <- as.POSIXct(tbl$forecast_time, tz = "UTC")
+        return(tbl)
       })
     } else {
       if (verbose) message("[flowfabric_streamflow_query] Ignoring export_url for Zarr dataset; proceeding with streaming query")
@@ -223,9 +228,8 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
         if (verbose) message("[flowfabric_streamflow_query] Detected base64-encoded Arrow in JSON 'data' field.")
         arrow_bin <- base64enc::base64decode(json$data)
         tbl <- arrow::read_ipc_stream(arrow_bin)
-        if ("time" %in% names(tbl)) {
-          tbl$time <- as.POSIXct(tbl$time, tz = "UTC")
-        }
+        if ("init_time" %in% names(tbl)) tbl$init_time <- as.POSIXct(tbl$init_time, tz = "UTC")
+        if ("forecast_time" %in% names(tbl)) tbl$forecast_time <- as.POSIXct(tbl$forecast_time, tz = "UTC")
         return(tbl)
       } else {
         stop("JSON response does not contain 'data' field for Arrow stream.")
@@ -234,9 +238,8 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
       # Try to parse as Arrow binary
       tryCatch({
         tbl <- arrow::read_ipc_stream(raw_body)
-        if ("time" %in% names(tbl)) {
-          tbl$time <- as.POSIXct(tbl$time, tz = "UTC")
-        }
+        if ("init_time" %in% names(tbl)) tbl$init_time <- as.POSIXct(tbl$init_time, tz = "UTC")
+        if ("forecast_time" %in% names(tbl)) tbl$forecast_time <- as.POSIXct(tbl$forecast_time, tz = "UTC")
         return(tbl)
       }, error = function(e) {
         stop("Failed to parse Arrow IPC stream: ", e$message)
@@ -247,6 +250,8 @@ flowfabric_streamflow_query <- function(dataset_id, feature_ids = NULL, start_ti
     tryCatch({
       if (verbose) message("[flowfabric_streamflow_query] Response body: ", paste(utils::capture.output(utils::str(httr2::resp_body_json(resp))), collapse = " "))
       json_data <- httr2::resp_body_json(resp)
+      if ("init_time" %in% names(json_data)) json_data$init_time <- as.POSIXct(json_data$init_time, tz = "UTC")
+      if ("forecast_time" %in% names(json_data)) json_data$forecast_time <- as.POSIXct(json_data$forecast_time, tz = "UTC")
       return(json_data)
     }, error = function(e) {
       stop("Failed to parse JSON response: ", e$message)
